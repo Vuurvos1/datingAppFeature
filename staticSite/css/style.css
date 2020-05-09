@@ -23,7 +23,7 @@ h1 {
 
 /* Style header*/
 header {
-    z-index: 2;
+    z-index: 5;
     position: fixed;
     top: 0;
     left: 0;
@@ -34,6 +34,8 @@ header {
 
     background-color: var(--darkBlue);
     padding: .2rem 1.2rem;
+
+    grid-area: header;
 
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -54,18 +56,69 @@ main {
     left: 0;
 }
 
+/* Style sidebar */
+main #profiles {
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    transform: translateX(-100%);
+
+    height: 100vh;
+    width: 80vw;
+
+    background-color: hotpink;
+
+    transition: transform .4s ease-out;
+}
+
+main #profiles.active {
+    transform: translateX(0);
+}
+
+aside .profile img {
+    width: 6rem;
+    height: auto;
+
+    border-radius: 50%;
+}
+
 /* Style messages*/
 #messages {
-    margin: 0 .8rem;
+    margin: 0 .8rem 4rem .8rem;
+    grid-area: chatMessages;
+
+    overflow-y: auto;
+    max-height: calc(100vh - 8rem);
+    height: auto;
+}
+
+#messages::-webkit-scrollbar {
+    width: .4rem; 
+}
+
+#messages::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+    background-color: var(--lightGray2);
+    border-radius: 2rem;
 }
 
 .message {
     display: flex;
 }
 
+.message:first-child {
+    margin-top: 6rem;
+}
+
 .message p {
+    z-index: -1;
     display: inline-block;
-    position: relative; 
+    position: relative;
     max-width: 70%;
 
     margin-bottom: 1.6rem;
@@ -95,6 +148,7 @@ main {
 }
 
 .profilePic {
+    z-index: -1;
     width: 2.6rem;
     height: 2.6rem;
     margin-right: .6rem;
@@ -124,11 +178,22 @@ main {
 }
 
 /* Style send message form */
+#messageForm {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    margin-bottom: 1rem;
+
+    grid-area: sendMessage;
+}
+
 main #messageForm form {
     max-width: 100vw;
     display: flex;
 
-    margin: 0 .6rem 1rem .6rem;
+    margin: 0 .6rem 0 .6rem;
 
     flex-direction: row;
     align-items: center;
@@ -162,4 +227,88 @@ main #messageForm button svg {
     height: 1rem;
     width: auto;
     fill: var(--white);
+}
+
+
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media screen and (min-width: 48rem) {
+    header {
+        box-sizing: border-box;
+        position: initial;
+        width: auto;
+        margin: 0 auto;
+        padding: 0;
+        padding-left: 40%;
+        max-width: 64rem;
+    }
+
+    main #profiles {
+        transform: translateX(0);
+        width: initial;
+
+        position: initial;
+        height: initial;
+        width: initial;
+
+        background-color: hotpink;
+    }
+
+    #messages {
+        align-self: end;
+        margin-bottom: 1.4rem;
+    }
+
+
+    #messageForm {
+        position: initial;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+
+        grid-area: sendMessage;
+    }
+
+    main #profiles {
+        grid-area: profiles;
+    }
+
+    main .wrapper {
+        height: 100vh;
+
+        display: grid;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 3rem auto 4rem;
+        grid-template-areas:
+            "profiles header"
+            "profiles chatMessages"
+            "profiles sendMessage";
+    }
+
+    .wrapper {
+        max-width: 64rem;
+        margin: 0 auto;
+    }
+}
+
+
+
+/* Large devices (laptops/desktops, 1024px and up) */
+@media screen and (min-width: 64rem) {
+    header {
+        max-width: 96rem;
+        padding-left: 32rem;
+    }
+
+    main .wrapper {
+        grid-template-columns: 30rem 60%;
+
+    }
+
+    .wrapper {
+        max-width: 96rem;
+    }
+
 }

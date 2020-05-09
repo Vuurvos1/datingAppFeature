@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Chat App</title>
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -21,42 +21,75 @@
     </header>
 
     <main>
-        <section id="messages">
-   
-            <div class="message messageRecieve">
-                <img class="profilePic" src="img/profilePicture1.jpg" alt="Profiel foto van Hinze">
-                <p>
-                    According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are
-                    too small to get its fat little body off the ground. The bee, of course, flies anyway because bees
-                    don't care what humans think is impossible. Yellow, black. Yellow, black. Yellow, black. Yellow,
-                    black. Ooh, black and yellow! Let's shake it up a little. Barry! Breakfast is ready! Ooming! Hang on
-                    a second. Hello? - Barry? - Adam? - Oan you believe this is happening? - I can't. I'll pick you up.
-                    Looking sharp. Use the stairs. Your father paid good money for those.
-                </p>
-            </div>
+        <div class="wrapper">
+            <!-- <aside id="profiles" class="active"> -->
+            <aside id="profiles">
+                <form action="get">
+                    <input type="text" id="message" name="message" placeholder="Type a message">
+                    <button type="submit">
+                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.0114107 0L0 8.68966L10.4762 10.5L0 12.3103L0.0114107 21L24 10.5L0.0114107 0Z" />
+                        </svg>
+                    </button>
+                </form>
 
-            <div class="message messageSend">
-                <p>Hey, we matched!</p>
-            </div>
-            
-            <div class="message messageRecieve">
-                <img class="profilePic" src="img/profilePicture1.jpg" alt="Profiel foto van Hinze">
-                <p>Hey, How are you?</p>
-            </div>
+                <h2>Messages</h2>
 
-        </section>
+                <div class="profile">
+                    <img src="img/profilePicture1.jpg" alt="Profile picture of Hinze">
+                    <div>
+                        <h3>Name</h3>
+                        <p>Last Message</p>
+                    </div>
+                </div>
 
-        <section id="messageForm">
-            <form action="get">
-                <input type="text" id="message" name="message" placeholder="Type a message">
-                <button type="submit">
-                    <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.0114107 0L0 8.68966L10.4762 10.5L0 12.3103L0.0114107 21L24 10.5L0.0114107 0Z" />
-                    </svg>
-                </button>
-            </form>
-        </section>
+                <div class="profile">
+                    <img src="img/profilePicture1.jpg" alt="Profile picture of Hinze">
+                    <h3>Name</h3>
+                    <p>Last Message</p>
+                </div>
+            </aside>
 
+            <section id="messages">
+
+                <div class="message messageRecieve">
+                    <img class="profilePic" src="img/profilePicture1.jpg" alt="Profiel foto van Hinze">
+                    <p>
+                        According to all known laws of aviation, there is no way a bee should be able to fly. Its wings
+                        are
+                        too small to get its fat little body off the ground. The bee, of course, flies anyway because
+                        bees
+                        don't care what humans think is impossible. Yellow, black. Yellow, black. Yellow, black. Yellow,
+                        black. Ooh, black and yellow! Let's shake it up a little. Barry! Breakfast is ready! Ooming!
+                        Hang on
+                        a second. Hello? - Barry? - Adam? - Oan you believe this is happening? - I can't. I'll pick you
+                        up.
+                        Looking sharp. Use the stairs. Your father paid good money for those.
+                    </p>
+                </div>
+
+                <div class="message messageSend">
+                    <p>Hey, we matched!</p>
+                </div>
+
+                <div class="message messageRecieve">
+                    <img class="profilePic" src="img/profilePicture1.jpg" alt="Profiel foto van Hinze">
+                    <p>Hey, How are you?</p>
+                </div>
+
+            </section>
+
+            <section id="messageForm">
+                <form action="">
+                    <input type="text" id="message" name="message" placeholder="Type a message">
+                    <button type="submit">
+                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.0114107 0L0 8.68966L10.4762 10.5L0 12.3103L0.0114107 21L24 10.5L0.0114107 0Z" />
+                        </svg>
+                    </button>
+                </form>
+            </section>
+        </div>
 
     </main>
 
