@@ -25,23 +25,29 @@ h1 {
 header {
     z-index: 5;
     position: fixed;
+    height: 3rem;
     top: 0;
     left: 0;
 
     display: flex;
-    align-items: baseline;
+    align-items: center;
     width: 100vw;
 
     background-color: var(--darkBlue);
-    padding: .2rem 1.2rem;
+    padding: 0 1.2rem;
 
     grid-area: header;
 
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+header a {
+    display: flex;
+    align-items: center;
+}
+
 header svg {
-    height: 1.2rem;
+    height: 1.4rem;
     width: auto;
     fill: var(--white);
 
@@ -63,12 +69,12 @@ main #profiles {
     top: 0;
     left: 0;
 
-    transform: translateX(-100%);
+    transform: translateX(-120%);
 
     height: 100vh;
     width: 80vw;
 
-    background-color: hotpink;
+    background-color: var(--lightGray2);
 
     transition: transform .4s ease-out;
 }
@@ -77,9 +83,46 @@ main #profiles.active {
     transform: translateX(0);
 }
 
+#profiles #sideSearchbar {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+
+    background-color: var(--darkBlue);
+    border-right: 2px solid var(--darkBlue);
+}
+
+#profiles input[type=text] {
+    box-sizing: border-box;
+    background-image: url('../img/searchIcon.svg');
+    background-size: 1rem;
+    background-position: .8rem 7px;
+    background-repeat: no-repeat;
+
+    border: none;
+    border-radius: 100px;
+    font-size: 1rem;
+    margin: 0 1rem;
+    padding: .4rem 1rem .4rem 2rem;
+}
+
+
+
+#profiles h2 {
+    margin: 1.4rem 0 1rem 1rem;
+}
+
+#profiles .profile {
+    display: flex;
+    align-items: center;
+
+    margin: 0 0 1.6rem 2rem ;
+}
+
 aside .profile img {
     width: 6rem;
     height: auto;
+    margin-right: 2rem;
 
     border-radius: 50%;
 }
@@ -231,7 +274,6 @@ main #messageForm button svg {
 
 
 
-
 /* Medium devices (landscape tablets, 768px and up) */
 @media screen and (min-width: 48rem) {
     header {
@@ -239,8 +281,7 @@ main #messageForm button svg {
         position: initial;
         width: auto;
         margin: 0 auto;
-        padding: 0;
-        padding-left: 40%;
+        padding-left: calc(40% + 2rem);
         max-width: 64rem;
     }
 
@@ -252,7 +293,7 @@ main #messageForm button svg {
         height: initial;
         width: initial;
 
-        background-color: hotpink;
+        background-color: var(--lightGray2);
     }
 
     #messages {
@@ -294,7 +335,6 @@ main #messageForm button svg {
 }
 
 
-
 /* Large devices (laptops/desktops, 1024px and up) */
 @media screen and (min-width: 64rem) {
     header {
@@ -310,5 +350,4 @@ main #messageForm button svg {
     .wrapper {
         max-width: 96rem;
     }
-
 }
