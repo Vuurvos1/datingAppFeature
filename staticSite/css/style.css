@@ -339,12 +339,7 @@ main #messageForm button svg {
 @media screen and (min-width: 64rem) {
     header {
         max-width: 96rem;
-        padding-left: 32rem;
-    }
-
-    main .wrapper {
-        grid-template-columns: 30rem 60%;
-
+        padding-left: 40rem;
     }
 
     .wrapper {
