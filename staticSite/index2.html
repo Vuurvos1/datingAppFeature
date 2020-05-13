@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="css/style2.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h2>Messages</h2>
+
+            <form id="sideSearchbar" action="">
+                <input type="text" id="search" name="search" placeholder="Search...">
+
+                <button type="submit"> Search
+                    <svg width="16" height="14" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.00760713 0L0 5.79311L6.98413 7L0 8.20687L0.00760713 14L16 7L0.00760713 0Z" />
+                    </svg>
+                </button>
+            </form>
+
+            <div class="userChats">
+                <button class="profile">
+                    <img srcset="img/profilePicture1x256.jpg 480w,
+                            img/profilePicture1x512.jpg 800w" sizes="(max-width: 600px) 480px,
+            800px" src="img/profilePicture1x512.jpg" alt="Profile picture of Hinze">
+                    <div>
+                        <h3>Hinze</h3>
+                        <p>Last Message</p>
+                    </div>
+                </button>
+
+                <button class="profile">
+                    <img srcset="img/profilePicture2x256.jpg 480w,
+                            img/profilePicture2x512.jpg 800w" sizes="(max-width: 600px) 480px,
+            800px" src="img/profilePicture2x512.jpg" alt="Profile picture of Marielle">
+                    <div>
+                        <h3>Marielle</h3>
+                        <p>Last Message</p>
+                    </div>
+                </button>
+            </div>
+        </nav>
+
+        <a href="#">
+            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M15.1 9.255l.026-.006H4.419l3.366 3.373a.876.876 0 01.255.622c0 .234-.09.456-.255.621l-.524.524a.868.868 0 01-.618.256.868.868 0 01-.618-.255L.255 8.62A.867.867 0 010 8c0-.235.09-.455.255-.62l5.77-5.77a.868.868 0 01.618-.255c.234 0 .453.09.618.255l.524.524a.867.867 0 01.255.618.84.84 0 01-.255.607L4.38 6.751h10.732c.482 0 .887.416.887.898v.74c0 .483-.417.866-.9.866z" />
+            </svg>
+        </a>
+    </header>
+
+    <main>
+        <div class="wrapper">
+            <h1>Hinze</h1>
+
+            <section id="messages">
+                <div class="message messageRecieve">
+                    <h3>Hinze</h3>
+                    <!-- <img class="profilePic" src="img/profilePicture1.jpg" alt="Profiel foto van Hinze"> -->
+                    <p>
+                        According to all known laws of aviation, there is no way a bee should be able to fly. Its wings
+                        are
+                        too small to get its fat little body off the ground. The bee, of course, flies anyway because
+                        bees
+                        don't care what humans think is impossible. Yellow, black. Yellow, black. Yellow, black. Yellow,
+                        black. Ooh, black and yellow! Let's shake it up a little. Barry! Breakfast is ready! Ooming!
+                        Hang on
+                        a second. Hello? - Barry? - Adam? - Oan you believe this is happening? - I can't. I'll pick you
+                        up.
+                        Looking sharp. Use the stairs. Your father paid good money for those.
+                    </p>
+                </div>
+
+                <div class="message messageSend">
+                    <h3>You</h3>
+                    <p>Hey, we matched!</p>
+                </div>
+
+                <div class="message messageRecieve">
+                    <h3>Hinze</h3>
+                    <!-- <img class="profilePic" src="img/profilePicture1.jpg" alt="Profiel foto van Hinze"> -->
+                    <p>Hey, How are you?</p>
+                </div>
+
+            </section>
+
+            <form id="messageForm" id="messageForm" action="">
+                <input type="text" id="message" name="message" placeholder="Type a message">
+                <button type="submit"> Send message
+                    <svg width="16" height="14" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.00760713 0L0 5.79311L6.98413 7L0 8.20687L0.00760713 14L16 7L0.00760713 0Z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- <script src="js/script.js"></script> -->
+</body>
+
+</html>
