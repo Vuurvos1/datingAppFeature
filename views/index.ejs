@@ -22,11 +22,10 @@
 
     <main>
         <div class="wrapper">
-            <%- include('components/sidebar'); -%>
+            <%- include('components/sidebar', {data: data}); -%>
             
-            <%- include('components/chat'); -%>
+            <%- include('components/chat', {data: data}); -%>
         </div>
-
     </main>
 
 
