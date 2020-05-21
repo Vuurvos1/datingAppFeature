@@ -3,23 +3,25 @@
 
         <% if (data[0].messages[i].send === 'true') { %>
             <div class="message messageSend">
-                <p> <%= data[0].messages[i].message %> </p>
-            </div>
-        <% } else { %>
-            <div class="message messageRecieve">
-                <img class="profilePic" src="img/profilePicture1x256.jpg" alt="Profiel foto van Hinze">
                 <p>
                     <%= data[0].messages[i].message %>
                 </p>
             </div>
-        <% } %>
-        
-    <% } %>
+            <% } else { %>
+                <div class="message messageRecieve">
+                    <img class="profilePic" src="img/profilePicture1x256.jpg" alt="Profiel foto van Hinze">
+                    <p>
+                        <%= data[0].messages[i].message %>
+                    </p>
+                </div>
+                <% } %>
+
+                    <% } %>
 
 </section>
-    
+
 <section id="messageForm">
-    <form action="">
+    <form action="/" method="post">
         <input type="text" id="message" name="message" placeholder="Type a message">
         <button type="submit">
             <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
