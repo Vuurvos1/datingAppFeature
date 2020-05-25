@@ -8,4 +8,4 @@ Chatapp feature for a dating app
 2. Clone the project to your local enviroment
 3. Go to folder where you saved the project
 4. Run `npm install` to install the needed npm packages
-5. Start the project using `node index`
+5. Start the project using `node index.js`

@@ -1,4 +1,8 @@
 const express = require('express');
+const mongo = require('mongodb');
+
+require('dotenv').config();
+
 // const slug = require('slug')
 const bodyParser = require('body-Parser');
 const app = express();
@@ -75,6 +79,68 @@ app.get('/mp4', (req, res) => {
 app.get('*', (req, res) => {
   res.render('404.ejs');
 });
+
+// let db = null;
+// let url = 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT;
+
+// mongo.MongoClient.connect(url, function (err, client) {
+//   if (err) throw err;
+//   db = client.db(process.env.DB_NAME);
+// });
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_NAME}-8rusk.azure.mongodb.net/test?retryWrites=true&w=majority`;
+
+async function main() {
+  /**
+   * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+   * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+   */
+  // const uri = "mongodb+srv://<username>:<password>@<your-cluster-url>/test?retryWrites=true&w=majority";
+
+  const client = new mongo.MongoClient(uri);
+
+  try {
+    // Connect to the MongoDB cluster
+    await client.connect();
+
+    // Make the appropriate DB calls
+    await listDatabases(client);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+
+async function listDatabases(client) {
+  databasesList = await client.db().admin().listDatabases();
+
+  console.log('Databases:');
+  databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
+}
+
+// const client = new MongoClient(uri);
+
+// try {
+//   await client.connect();
+
+//   await listDatabases(client);
+
+// } catch (e) {
+//   console.error(e);
+// }
+
+// mongo.connect(uri, function (err, client) {
+//   if (err) {
+//     console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
+//   }
+//   console.log('Connected...');
+//   const collection = client.db(process.env.DB_NAME).collection('devices');
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 function sendMsg(req, res) {
   const msg = {
