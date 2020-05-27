@@ -1,22 +1,22 @@
 <section id="messages">
     <% for (let i = 0; i < data[0].messages.length; i++) { %>
 
-        <% if (data[0].messages[i].send === 'true') { %>
-            <div class="message messageSend">
-                <p>
-                    <%= data[0].messages[i].message %>
-                </p>
-            </div>
-            <% } else { %>
-                <div class="message messageRecieve">
-                    <img class="profilePic" src="img/profilePicture1x256.jpg" alt="Profiel foto van Hinze">
-                    <p>
-                        <%= data[0].messages[i].message %>
-                    </p>
-                </div>
-                <% } %>
+    <% if (data[0].messages[i].send === true) { %>
+    <div class="message messageSend">
+        <p>
+            <%= data[0].messages[i].message %>
+        </p>
+    </div>
+    <% } else { %>
+    <div class="message messageRecieve">
+        <img class="profilePic" src="img/profilePicture1x256.jpg" alt="Profiel foto van Hinze">
+        <p>
+            <%= data[0].messages[i].message %>
+        </p>
+    </div>
+    <% } %>
 
-                    <% } %>
+    <% } %>
 
 </section>
 
