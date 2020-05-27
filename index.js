@@ -1,7 +1,6 @@
 const express = require('express');
 const mongo = require('mongodb');
 const ObjectId = mongo.ObjectID;
-
 // const slug = require('slug')
 const bodyParser = require('body-Parser');
 require('dotenv').config();
@@ -65,26 +64,6 @@ app.get('/mp4', (req, res) => {
 app.get('*', (req, res) => {
   res.render('404.ejs');
 });
-
-// function sendMsg(req, res) {
-//   const msg = {
-//     send: 'true',
-//     message: req.body.message,
-//   };
-
-//   data[0].messages.push(msg);
-
-//   res.redirect('/index');
-// }
-
-// function sendMsg(req, res) {
-//   db.collection('Users').insertOne({
-//     send: true,
-//     message: req.body.message,
-//   });
-
-//   console.log(`A new message has been send: ${req.body.message}`);
-// }
 
 function sendMsg(req, res) {
   let data = {
