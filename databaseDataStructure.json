@@ -21,6 +21,28 @@
         { "send": "true", "message": "Hey, we matched!" },
         { "send": "false", "message": "Hey, How are you?" }
       ]
+    },
+    {
+      "chats": [
+        {
+          "from": "user1",
+          "to": "user2",
+          "messages": [
+            {
+              "from": "user1",
+              "message": "Hey, How are you?"
+            },
+            {
+              "from": "user2",
+              "message": "Doing great!"
+            },
+            {
+              "from": "user3",
+              "message": "🍤"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
