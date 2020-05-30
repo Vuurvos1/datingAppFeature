@@ -1,31 +1,26 @@
+require('dotenv').config();
+
+// database connection
 const mongo = require('mongodb');
 const ObjectId = mongo.ObjectID;
 
 // const slug = require('slug')
 const bodyParser = require('body-Parser');
-require('dotenv').config();
 
 const express = require('express');
 const app = express();
 const port = 3000;
 
+// socket io
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
+
 let db;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}`;
-
-// Data structure
-// const data = [
-//   {
-//     id: '0001',
-//     name: 'Name',
-//     imgFullRes: 'img/profilePicture1x512.jpg',
-//     imgHalfRes: 'img/profilePicture1x256.jpg',
-
-//     messages: [
-//       { send: 'true', message: `Hey, we matched!` },
-//       { send: 'false', message: `Hey, How are you?` },
-//     ],
-//   },
-// ];
 
 mongo.MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
   db = client.db('DatingApp');
@@ -42,10 +37,6 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/', sendMsg);
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
 
 app.get('/index', (req, res) => {
   db.collection('Users')
@@ -79,7 +70,10 @@ function sendMsg(req, res) {
     { $push: { messages: data } }
   );
 
-  // console.log(data);
   console.log(`A new message has been send: ${req.body.message}`);
   res.redirect('/index');
 }
+
+io.on('connection', (socket) => {
+  console.log(`A new client connected: ${socket.id}`);
+});

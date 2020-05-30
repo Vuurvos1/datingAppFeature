@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": "0001",
+      "name": "Name",
+      "imgFullRes": "img/profilePicture1x512.jpg",
+      "imgHalfRes": "img/profilePicture1x256.jpg",
+
+      "messages": [
+        { "send": "true", "message": "Hey, we matched!" },
+        { "send": "false", "message": "Hey, How are you?" }
+      ]
+    },
+    {
+      "id": "0002",
+      "name": "Name",
+      "imgFullRes": "img/profilePicture1x512.jpg",
+      "imgHalfRes": "img/profilePicture1x256.jpg",
+
+      "messages": [
+        { "send": "true", "message": "Hey, we matched!" },
+        { "send": "false", "message": "Hey, How are you?" }
+      ]
+    }
+  ]
+}
