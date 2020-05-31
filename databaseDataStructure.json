@@ -43,6 +43,22 @@
           ]
         }
       ]
+    },
+    {
+      "_id": "ObjectId('1234')",
+      "participants": ["user1", "user2"],
+      "messages": [
+        {
+          "sender": "Hey, we matched!",
+          "content": "howdy",
+          "time": "new Date()"
+        },
+        {
+          "sender": "user2",
+          "content": "Heyo, how are you?",
+          "time": "new Date()"
+        }
+      ]
     }
   ]
 }

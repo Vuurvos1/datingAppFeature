@@ -56,7 +56,6 @@ app.get('*', (req, res) => {
 });
 
 /* Database */
-
 function sendMsg(req, res) {
   if (req.body.message.trim() != '') {
     let data = {
@@ -79,6 +78,15 @@ function sendMsg(req, res) {
 /* Socket io */
 io.on('connection', (socket) => {
   console.log(`A new client connected: ${socket.id}`);
+  let roomName;
+
+  socket.on('joinRoom', (room) => {
+    roomName = room;
+    socket.join(room);
+  });
+
+  // roomName = socket.id;
+  // socket.join(roomName);
 
   socket.on('message', (data) => {
     console.log(data.message);
@@ -106,7 +114,7 @@ io.on('connection', (socket) => {
     }
     // add to database
 
-    // socket.to(roomName).emit('message', data2);
+    socket.to(roomName).emit('message', data.message);
   });
 
   socket.on('disconnect', () => {

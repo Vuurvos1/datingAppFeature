@@ -10,13 +10,28 @@ const settings = {
 
 let socket = io(settings.url);
 
-let searchRoom = window.location.search.slice(1).trim();
+const searchRoom = window.location.search.slice(1).trim();
 console.log(searchRoom);
+socket.emit('joinRoom', searchRoom);
 
+messageSection.scrollTop = messageSection.scrollHeight;
+
+// Incomming
 socket.on('message', (data) => {
   console.log(data);
+
+  messageSection.innerHTML += `
+  <div class="message messageRecieve">
+      <p>
+          ${data.trim()}
+      </p>
+  </div>
+  `;
+
+  messageSection.scrollTop = messageSection.scrollHeight;
 });
 
+// Outgoing
 sendMsg.addEventListener('click', (e) => {
   e.preventDefault();
   console.log(msg.value.trim());
