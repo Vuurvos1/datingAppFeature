@@ -6,14 +6,25 @@
     <h2>Messages</h2>
 
     <% for (let i = 0; i < data.length; i++) { %>
-        <div class="profile">
-            <img src="<%= data[i].imgHalfRes %>" alt="Profile picture of <%= data[i].name %>">
-            <div>
-                <h3>
-                    <%= data[i].name %>
-                </h3>
-                <p>Last Message</p>
-            </div>
+    <div class="profile">
+        <img src="<%= data[i].imgHalfRes %>" alt="Profile picture of <%= data[i].name %>">
+        <div>
+            <h3>
+                <%= data[i].name %>
+            </h3>
+            <p>Last Message</p>
         </div>
-        <% } %>
+    </div>
+    <% } %>
+
+    <div class="profile">
+        <button>Add chat</button>
+        <div>
+            <h3>
+                Add chat
+            </h3>
+        </div>
+    </div>
+
+
 </aside>
