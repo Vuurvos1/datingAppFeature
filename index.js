@@ -2,8 +2,8 @@ require('dotenv').config();
 const bodyParser = require('body-Parser');
 const mongo = require('mongodb');
 const ObjectId = mongo.ObjectID;
-// // const slug = require('slug')
-
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
@@ -25,23 +25,44 @@ mongo.MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
   });
 });
 
-// let server = app.listen(process.env.PORT || port, listen);
-
-// let roomname = '';
-
 /* Express */
 app.use(express.static(__dirname + '/views'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.post('', sendMsg);
+app.post('/chats', sendMsg);
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 3600000,
+    },
+  })
+);
 
-app.get('', (req, res) => {
-  db.collection('Users')
-    .find()
+app.get('/chats', (req, res) => {
+  // console.log(`chats session user: ${req.session.user}`);
+
+  if (!req.session.user) {
+    res.redirect('/login');
+  }
+
+  const id = req.session.user._id;
+  console.log(`chats user _id: ${id}`);
+
+  db.collection('Chats')
+    .find({
+      participants: {
+        $in: [req.session.user._id],
+      },
+    })
     .toArray((err, data) => {
       if (err) console.log(err);
-      // console.log(data);
+      data.clientid = id;
+      console.log(data);
       res.render('index.ejs', { data: data });
     });
 });
@@ -51,8 +72,39 @@ app.get('/mp4', (req, res) => {
   // console.log(req.headers.host + req.url);
 });
 
-app.get('*', (req, res) => {
-  res.render('404.ejs');
+// Login
+app.get('/login', (req, res) => {
+  res.render('login.ejs');
+});
+
+app.post('/login', (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  let user = {
+    username: username.toLowerCase(),
+    password: password,
+  };
+
+  db.collection('Users').findOne(
+    {
+      username: username.toLowerCase(),
+      password: password,
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result) {
+        req.session.user = result;
+        req.session.save(function (err) {
+          res.redirect('/chats');
+        });
+      } else {
+        res.redirect('/login');
+      }
+    }
+  );
 });
 
 /* Database */
@@ -91,25 +143,21 @@ io.on('connection', (socket) => {
   socket.on('message', (data) => {
     console.log(data.message);
 
-    // let data2 = {
-    //   name: '🦐',
-    //   message: data.message,
-    // };
-
     if (data.message.trim() != '') {
-      let DatabaseData = {
-        send: true,
-        message: data.message.trim(),
+      let databaseData = {
+        sender: '5ecc2c45c32afdba32b9a760',
+        content: 'Doing great!',
+        time: new Date(),
       };
 
-      db.collection('Users').updateOne(
+      db.collection('Chats').updateOne(
         {
           _id: ObjectId('5ecc0dbfc32afdba32b9a75e'),
         },
-        { $push: { messages: DatabaseData } }
+        { $push: { messages: databaseData } }
       );
 
-      console.log(`A new message has been send: ${DatabaseData}`);
+      console.log(`A new message has been send: ${databaseData}`);
       // res.redirect('/');
     }
     // add to database
@@ -120,6 +168,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('Client has disconnected');
   });
+});
+
+app.get('*', (req, res) => {
+  res.render('404.ejs');
 });
 
 server.listen(port, () =>
