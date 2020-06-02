@@ -12,7 +12,7 @@ let socket = io(settings.url);
 
 const searchRoom = window.location.search.slice(1).trim();
 console.log(searchRoom);
-socket.emit('joinRoom', searchRoom);
+// socket.emit('joinRoom', searchRoom);
 
 messageSection.scrollTop = messageSection.scrollHeight;
 
@@ -50,10 +50,7 @@ sendMsg.addEventListener('click', (e) => {
 
   messageSection.scrollTop = messageSection.scrollHeight;
 
+  console.log('send data');
   socket.emit('message', data);
   msg.value = '';
-
-  // let data = {
-  //   message: msg.value,
-  // };
 });

@@ -2,11 +2,19 @@ require('dotenv').config();
 const bodyParser = require('body-Parser');
 const mongo = require('mongodb');
 const ObjectId = mongo.ObjectID;
-const session = require('express-session');
+const session = require('express-session')({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 3600000,
+  },
+});
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const sharedsession = require('express-socket.io-session');
 const port = process.env.PORT || 3000;
 let app = express();
 let server = http.createServer(app);
@@ -32,26 +40,19 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/chats', sendMsg);
 app.use(cookieParser());
-app.use(
-  session({
-    secret: process.env.SECRET,
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 3600000,
-    },
-  })
-);
+app.use(session);
+
+io.use(sharedsession(session));
 
 app.get('/chats', (req, res) => {
-  // console.log(`chats session user: ${req.session.user}`);
+  console.log(`${req.session.user}`);
 
   if (!req.session.user) {
     res.redirect('/login');
   }
 
   const id = req.session.user._id;
-  console.log(`chats user _id: ${id}`);
+  console.log(req.session);
 
   db.collection('Chats')
     .find({
@@ -60,16 +61,25 @@ app.get('/chats', (req, res) => {
       },
     })
     .toArray((err, data) => {
-      if (err) console.log(err);
+      if (err) {
+        console.log(err);
+      }
+
+      req.session.chatroom = data[0]._id;
+
       data.clientid = id;
+      console.log('data');
       console.log(data);
+
+      // console.log(data.client);
+      // socketRoom = data[0]._id;
+      // console.log(socketRoom);
       res.render('index.ejs', { data: data });
     });
 });
 
 app.get('/mp4', (req, res) => {
   res.sendFile(__dirname + '/seal.mp4');
-  // console.log(req.headers.host + req.url);
 });
 
 // Login
@@ -94,10 +104,11 @@ app.post('/login', (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
+        0;
       }
       if (result) {
         req.session.user = result;
-        req.session.save(function (err) {
+        req.session.save((err) => {
           res.redirect('/chats');
         });
       } else {
@@ -130,39 +141,32 @@ function sendMsg(req, res) {
 /* Socket io */
 io.on('connection', (socket) => {
   console.log(`A new client connected: ${socket.id}`);
-  let roomName;
 
-  socket.on('joinRoom', (room) => {
-    roomName = room;
-    socket.join(room);
-  });
-
-  // roomName = socket.id;
-  // socket.join(roomName);
+  const socketRoom = socket.handshake.session.chatroom;
+  socket.join(socketRoom);
 
   socket.on('message', (data) => {
-    console.log(data.message);
+    console.log('message');
 
-    if (data.message.trim() != '') {
-      let databaseData = {
-        sender: '5ecc2c45c32afdba32b9a760',
-        content: 'Doing great!',
-        time: new Date(),
-      };
+    const sender = socket.handshake.session.user._id;
 
-      db.collection('Chats').updateOne(
-        {
-          _id: ObjectId('5ecc0dbfc32afdba32b9a75e'),
-        },
-        { $push: { messages: databaseData } }
-      );
+    const databaseData = {
+      sender: sender,
+      content: data.message,
+      time: new Date(),
+    };
 
-      console.log(`A new message has been send: ${databaseData}`);
-      // res.redirect('/');
-    }
-    // add to database
+    console.log(databaseData);
 
-    socket.to(roomName).emit('message', data.message);
+    // send to database
+    db.collection('Chats').updateOne(
+      {
+        _id: ObjectId(socketRoom),
+      },
+      { $push: { messages: databaseData } }
+    );
+
+    socket.to(socketRoom).emit('message', data.message);
   });
 
   socket.on('disconnect', () => {
