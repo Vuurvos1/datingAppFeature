@@ -5,22 +5,27 @@
 
     <h2>Messages</h2>
 
-    <% for (let i = 0; i < data.length; i++) { %>
+    <% if (typeof users != "undefined") { %>
 
-    <form action="/chats" method="post">
-        <button type="submit" value="<%= data[i].name %>">
-            <img src="<%= data[i].imgHalfRes %>" alt="Profile picture of <%= data[i].name %>">
+    <% for (let i = 0; i < users.length; i++) { %>
+
+    <% if (users[i]._id != chats.clientid) { %>
+
+    <form action="/changeChat" method="post">
+        <button type="submit" name="changeChat" value="<%= users[i]._id %>">
+            <img src="<%= users[i].imgHalfRes %>" alt="Profile picture of <%= users[i].username %>">
             <div class="profile">
-                <div>
-                    <h3>
-                        <%= data[i].name %>
-                    </h3>
-                    <p>Last Message</p>
-                </div>
+                <h3>
+                    <%= users[i].username %>
+                </h3>
+                <p>Last Message</p>
             </div>
         </button>
     </form>
 
+    <% } %>
+
+    <% } %>
     <% } %>
 
     <div class="profile">

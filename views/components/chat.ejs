@@ -1,4 +1,6 @@
 <section id="messages">
+    <% if (data.length > 0) { %>
+
     <% for (let i = 0; i < data[0].messages.length; i++) { %>
 
     <% if (data[0].messages[i].sender === data.clientid) { %>
@@ -16,6 +18,7 @@
     </div>
     <% } %>
 
+    <% } %>
     <% } %>
 
 </section>

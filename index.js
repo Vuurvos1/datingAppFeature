@@ -62,8 +62,59 @@ app.get('/chats', async (req, res) => {
     })
     .toArray();
 
-  req.session.chatroom = chats[0]._id;
-  chats.clientid = id;
+  console.log(chats);
+
+  if (chats.length > 0) {
+    req.session.chatroom = chats[0]._id;
+    chats.clientid = id;
+
+    let x = [];
+    console.log('start for loop');
+    for (let i of chats) {
+      console.log(i.participants);
+      if (!x.includes(i.participants[0])) {
+        x.push(ObjectId(i.participants[0]));
+      }
+
+      if (!x.includes(i.participants[1])) {
+        x.push(ObjectId(i.participants[1]));
+      }
+    }
+
+    console.log(x);
+
+    // let users = '';
+    let users = await db
+      .collection('Users')
+      .find({
+        _id: { $in: x },
+      })
+      .toArray();
+
+    res.render('index.ejs', { data: chats, data2: users });
+  } else {
+    res.render('index.ejs', { data: {}, data2: {} });
+  }
+});
+
+app.get('/mp4', (req, res) => {
+  res.sendFile(__dirname + '/seal.mp4');
+});
+
+// switch chat
+app.post('/changeChat', async (req, res) => {
+  const userId = req.body.changeChat;
+
+  let y = [userId, req.session.user._id];
+
+  let chats = await db
+    .collection('Chats')
+    .find({
+      participants: {
+        $all: y,
+      },
+    })
+    .toArray();
 
   let x = [];
   console.log('start for loop');
@@ -77,10 +128,8 @@ app.get('/chats', async (req, res) => {
       x.push(ObjectId(i.participants[1]));
     }
   }
-
   console.log(x);
 
-  // let users = '';
   let users = await db
     .collection('Users')
     .find({
@@ -88,45 +137,16 @@ app.get('/chats', async (req, res) => {
     })
     .toArray();
 
-  // res.render('index.ejs', { data: data });
+  chats.clientid = req.session.user._id;
 
-  // let users = await db.collection('Users').find({
-
-  // })
-
-  console.log('users');
+  console.log('users aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
   console.log(users);
-
-  console.log('chats');
   console.log(chats);
 
   res.render('index.ejs', { data: chats, data2: users });
-
-  // db.collection('Chats')
-  //   .find({
-  //     participants: {
-  //       $in: [req.session.user._id],
-  //     },
-  //   })
-  //   .toArray((err, data) => {
-  //     if (err) {
-  //       console.log(err);
-  //     }
-
-  //     req.session.chatroom = data[0]._id;
-
-  //     data.clientid = id;
-  //     console.log('data');
-  //     console.log(data);
-
-  //     res.render('index.ejs', { data: data });
-  //   });
 });
 
-app.get('/mp4', (req, res) => {
-  res.sendFile(__dirname + '/seal.mp4');
-});
-
+// add chat
 app.get('/addChat', (req, res) => {
   db.collection('Users')
     .find({})
@@ -173,7 +193,6 @@ app.get('/login', (req, res) => {
   res.render('login.ejs');
 });
 
-// send login form
 app.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -225,7 +244,25 @@ app.post('/chats', (req, res) => {
   }
 });
 
-/* Socket io */
+app.post('/deleteChat', (req, res) => {
+  const roomId = req.session.chatroom;
+  db.collection('Chats').deleteOne(
+    {
+      _id: ObjectId(roomId),
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result) {
+        console.log('TACTICAL NUKE, INCOMMING ☢️');
+        res.redirect('/chats');
+      }
+    }
+  );
+});
+
+// socket io
 io.on('connection', (socket) => {
   console.log(`A new client connected: ${socket.id}`);
 
