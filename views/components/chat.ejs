@@ -2,7 +2,7 @@
     <% for (let i = 0; i < data[0].messages.length; i++) { %>
 
     <% if (data[0].messages[i].sender === data.clientid) { %>
-    <div class="message messageSend">
+    <div class="message messageSend" data-time="<%= data[0].messages[i].time %> ">
         <p>
             <%= data[0].messages[i].content %>
         </p>

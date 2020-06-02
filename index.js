@@ -38,13 +38,13 @@ app.use(express.static(__dirname + '/views'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.post('/chats', sendMsg);
+
 app.use(cookieParser());
 app.use(session);
 
 io.use(sharedsession(session));
 
-app.get('/chats', (req, res) => {
+app.get('/chats', async (req, res) => {
   console.log(`${req.session.user}`);
 
   if (!req.session.user) {
@@ -52,34 +52,120 @@ app.get('/chats', (req, res) => {
   }
 
   const id = req.session.user._id;
-  console.log(req.session);
 
-  db.collection('Chats')
+  let chats = await db
+    .collection('Chats')
     .find({
       participants: {
         $in: [req.session.user._id],
       },
     })
+    .toArray();
+
+  req.session.chatroom = chats[0]._id;
+  chats.clientid = id;
+
+  let x = [];
+  console.log('start for loop');
+  for (let i of chats) {
+    console.log(i.participants);
+    if (!x.includes(i.participants[0])) {
+      x.push(ObjectId(i.participants[0]));
+    }
+
+    if (!x.includes(i.participants[1])) {
+      x.push(ObjectId(i.participants[1]));
+    }
+  }
+
+  console.log(x);
+
+  // let users = '';
+  let users = await db
+    .collection('Users')
+    .find({
+      _id: { $in: x },
+    })
+    .toArray();
+
+  // res.render('index.ejs', { data: data });
+
+  // let users = await db.collection('Users').find({
+
+  // })
+
+  console.log('users');
+  console.log(users);
+
+  console.log('chats');
+  console.log(chats);
+
+  res.render('index.ejs', { data: chats, data2: users });
+
+  // db.collection('Chats')
+  //   .find({
+  //     participants: {
+  //       $in: [req.session.user._id],
+  //     },
+  //   })
+  //   .toArray((err, data) => {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+
+  //     req.session.chatroom = data[0]._id;
+
+  //     data.clientid = id;
+  //     console.log('data');
+  //     console.log(data);
+
+  //     res.render('index.ejs', { data: data });
+  //   });
+});
+
+app.get('/mp4', (req, res) => {
+  res.sendFile(__dirname + '/seal.mp4');
+});
+
+app.get('/addChat', (req, res) => {
+  db.collection('Users')
+    .find({})
     .toArray((err, data) => {
       if (err) {
         console.log(err);
       }
 
-      req.session.chatroom = data[0]._id;
-
-      data.clientid = id;
-      console.log('data');
-      console.log(data);
-
-      // console.log(data.client);
-      // socketRoom = data[0]._id;
-      // console.log(socketRoom);
-      res.render('index.ejs', { data: data });
+      res.render('addChat.ejs', { data: data });
     });
 });
 
-app.get('/mp4', (req, res) => {
-  res.sendFile(__dirname + '/seal.mp4');
+app.post('/addchat', async (req, res) => {
+  const user1 = req.body.chooseUsers1;
+  const user2 = req.body.chooseUsers2;
+
+  if (user1 != user2) {
+    let result = await db.collection('Chats').findOne({
+      participants: {
+        $all: [user1, user2],
+      },
+    });
+
+    if (result) {
+      console.log('chat already existst');
+      res.redirect('/addChat');
+    } else {
+      //create chat
+      console.log(`user 1: ${user1}, user 2: ${user2}`);
+      db.collection('Chats').insertOne({
+        participants: [user1, user2],
+        messages: [],
+      });
+
+      res.redirect('/chats');
+    }
+  } else {
+    res.redirect('/addChat');
+  }
 });
 
 // Login
@@ -87,14 +173,10 @@ app.get('/login', (req, res) => {
   res.render('login.ejs');
 });
 
+// send login form
 app.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-
-  let user = {
-    username: username.toLowerCase(),
-    password: password,
-  };
 
   db.collection('Users').findOne(
     {
@@ -104,7 +186,6 @@ app.post('/login', (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        0;
       }
       if (result) {
         req.session.user = result;
@@ -118,25 +199,31 @@ app.post('/login', (req, res) => {
   );
 });
 
-/* Database */
-function sendMsg(req, res) {
+// send chat msg
+app.post('/chats', (req, res) => {
   if (req.body.message.trim() != '') {
-    let data = {
-      send: true,
-      message: req.body.message.trim(),
+    const sender = req.session.user._id;
+
+    const databaseData = {
+      sender: sender,
+      content: req.body.message.trim(),
+      time: new Date(),
     };
 
-    db.collection('Users').updateOne(
+    console.log(databaseData);
+
+    // send to database
+    db.collection('Chats').updateOne(
       {
-        _id: ObjectId('5ecc0dbfc32afdba32b9a75e'),
+        _id: ObjectId(req.session.chatroom),
       },
-      { $push: { messages: data } }
+      { $push: { messages: databaseData } }
     );
 
     console.log(`A new message has been send: ${req.body.message}`);
-    res.redirect('/');
+    res.redirect('/chats');
   }
-}
+});
 
 /* Socket io */
 io.on('connection', (socket) => {

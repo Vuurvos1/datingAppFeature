@@ -10,9 +10,8 @@ const settings = {
 
 let socket = io(settings.url);
 
-const searchRoom = window.location.search.slice(1).trim();
-console.log(searchRoom);
-// socket.emit('joinRoom', searchRoom);
+// const searchRoom = window.location.search.slice(1).trim();
+// console.log(searchRoom);
 
 messageSection.scrollTop = messageSection.scrollHeight;
 

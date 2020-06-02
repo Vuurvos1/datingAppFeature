@@ -17,3 +17,11 @@ https://www.npmjs.com/package/express-socket.io-session
 https://openbase.io/js/express-socket.io-session
 
 https://docs.mongodb.com/manual/reference/operator/aggregation/in/
+
+https://stackoverflow.com/questions/30823944/mongodb-best-design-for-messaging-app/30830429#30830429
+
+https://docs.mongodb.com/manual/reference/method/db.collection.findOne/
+
+https://ourcodeworld.com/articles/read/272/how-to-use-socket-io-properly-with-express-framework-in-node-js
+
+https://github.com/RowinRuizendaal/project-tech/
