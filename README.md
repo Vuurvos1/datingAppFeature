@@ -10,18 +10,52 @@ Chatapp feature for a dating app
 4. Run `npm install` to install the needed npm packages
 5. Start the project using `node index.js`
 
+## Note
+
+For this project you will need my .env file \
+.env structure
+
+```
+DB_HOST=host url
+DB_NAME=database name
+DB_USER=database username
+DB_PASSWORD= database password
+SECRET= secret key for sessions
+```
+
+## Database structure
+
+### Users
+
+| Tables     |   Type   |          Value |
+| ---------- | :------: | -------------: |
+| \_id       | ObjectId | auto increment |
+| username   |  string  |         Moffel |
+| password   |  string  |     piertje123 |
+| imgFullRes |  string  |    imgFull.png |
+| imgHalfRes |  string  |    imgHalf.png |
+
+### Chats
+
+| Tables                |   Type   |                         Value |
+| --------------------- | :------: | ----------------------------: |
+| \_id                  | ObjectId |                auto increment |
+| participants          |  array   |        ['userId1', 'userId2'] |
+| messages              |  array   |        [{message}, {message}] |
+| messages[0] > sender  |  string  |                     sender id |
+| messages[0] > content |  string  |                       message |
+| messages[0] > time    |   date   | 2020-06-01T17:05:05.207+00:00 |
+
 ## Sources
 
-https://www.npmjs.com/package/express-socket.io-session
+Delgado, C. (2016, October 4). How to use Socket.IO properly with Express Framework in Node.js. Retrieved June 1, 2020, from https://ourcodeworld.com/articles/read/272/how-to-use-socket-io-properly-with-express-framework-in-node-js
 
-https://openbase.io/js/express-socket.io-session
+MongoDB. (n.d.-a). \$in (aggregation) — MongoDB Manual. Retrieved May 31, 2020, from https://docs.mongodb.com/manual/reference/operator/aggregation/in/
 
-https://docs.mongodb.com/manual/reference/operator/aggregation/in/
+MongoDB. (n.d.-b). db.collection.findOne() — MongoDB Manual. Retrieved June 1, 2020, from https://docs.mongodb.com/manual/reference/method/db.collection.findOne/
 
-https://stackoverflow.com/questions/30823944/mongodb-best-design-for-messaging-app/30830429#30830429
+MongoDB: best design for messaging app. (2015, June 13). Retrieved May 30, 2020, from https://stackoverflow.com/questions/30823944/mongodb-best-design-for-messaging-app/30830429#30830429
 
-https://docs.mongodb.com/manual/reference/method/db.collection.findOne/
+Osk. (n.d.). express-socket.io-session. Retrieved June 1, 2020, from https://openbase.io/js/express-socket.io-session
 
-https://ourcodeworld.com/articles/read/272/how-to-use-socket-io-properly-with-express-framework-in-node-js
-
-https://github.com/RowinRuizendaal/project-tech/
+Ruizendaal, R. (n.d.). RowinRuizendaal/project-tech. Retrieved June 1, 2020, from https://github.com/RowinRuizendaal/project-tech/
