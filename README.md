@@ -2,7 +2,8 @@
 
 This chat app is made to be a feature in a dating app. It allows users to send messages to each other in real-time and for the message to be stored inside a database.
 
-![Screenshot form chat app](https://raw.githubusercontent.com/wiki/Vuurvos1/projectTech/images/progressiveEnhancementHtmlCss.png 'Screenshot form chat app')
+**Screenshot form inside the app** \
+<img src="https://raw.githubusercontent.com/wiki/Vuurvos1/projectTech/images/progressiveEnhancementHtmlCss.png" alt="Screenshot form chat app" width="725" >
 
 ## Installing the project
 
