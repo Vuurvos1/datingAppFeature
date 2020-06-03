@@ -1,6 +1,8 @@
 # Dating app feature
 
-Chatapp feature for a dating app
+This chat app is made to be a feature in a dating app. It allows users to send messages to each other in real-time and for the message to be stored inside a database.
+
+![Screenshot form chat app](https://raw.githubusercontent.com/wiki/Vuurvos1/projectTech/images/progressiveEnhancementHtmlCss.png 'Screenshot form chat app')
 
 ## Installing the project
 
@@ -45,6 +47,15 @@ SECRET= secret key for sessions
 | messages[0] > sender  |  string  |                     sender id |
 | messages[0] > content |  string  |                       message |
 | messages[0] > time    |   date   | 2020-06-01T17:05:05.207+00:00 |
+
+## More Documentation
+
+Read more about the project in the [wiki](https://github.com/Vuurvos1/projectTech/wiki)
+
+## Possible Future Features
+
+- Message encryption
+- Delete single messages
 
 ## Sources
 

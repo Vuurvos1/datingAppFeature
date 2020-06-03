@@ -33,7 +33,7 @@ mongo.MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
   });
 });
 
-/* Express */
+// Express
 app.use(express.static(__dirname + '/views'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
