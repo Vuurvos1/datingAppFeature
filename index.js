@@ -45,8 +45,6 @@ app.use(session);
 io.use(sharedsession(session));
 
 app.get('/chats', async (req, res) => {
-  console.log(`${req.session.user}`);
-
   if (!req.session.user) {
     res.redirect('/login');
   }
@@ -57,7 +55,7 @@ app.get('/chats', async (req, res) => {
     .collection('Chats')
     .find({
       participants: {
-        $in: [req.session.user._id],
+        $in: [id],
       },
     })
     .toArray();
@@ -69,7 +67,6 @@ app.get('/chats', async (req, res) => {
     chats.clientid = id;
 
     let x = [];
-    console.log('start for loop');
     for (let i of chats) {
       console.log(i.participants);
       if (!x.includes(i.participants[0])) {
@@ -80,10 +77,8 @@ app.get('/chats', async (req, res) => {
         x.push(ObjectId(i.participants[1]));
       }
     }
-
     console.log(x);
 
-    // let users = '';
     let users = await db
       .collection('Users')
       .find({
@@ -104,6 +99,7 @@ app.get('/mp4', (req, res) => {
 // switch chat
 app.post('/changeChat', async (req, res) => {
   const userId = req.body.changeChat;
+  const id = req.session.user._id;
 
   let y = [userId, req.session.user._id];
 
@@ -116,19 +112,24 @@ app.post('/changeChat', async (req, res) => {
     })
     .toArray();
 
-  let x = [];
-  console.log('start for loop');
-  for (let i of chats) {
-    console.log(i.participants);
-    if (!x.includes(i.participants[0])) {
-      x.push(ObjectId(i.participants[0]));
-    }
+  req.session.chatroom = chats[0]._id;
+  chats.clientid = id;
 
-    if (!x.includes(i.participants[1])) {
-      x.push(ObjectId(i.participants[1]));
-    }
+  let allChats = await db
+    .collection('Chats')
+    .find({
+      participants: {
+        $in: [id],
+      },
+    })
+    .toArray();
+
+  let x = [];
+  for (let i of allChats) {
+    x.push(ObjectId(i.participants[0]));
+    x.push(ObjectId(i.participants[1]));
+    console.log(i.participants);
   }
-  console.log(x);
 
   let users = await db
     .collection('Users')
@@ -138,11 +139,6 @@ app.post('/changeChat', async (req, res) => {
     .toArray();
 
   chats.clientid = req.session.user._id;
-
-  console.log('users aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-  console.log(users);
-  console.log(chats);
-
   res.render('index.ejs', { data: chats, data2: users });
 });
 
