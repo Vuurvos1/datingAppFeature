@@ -1,5 +1,5 @@
 require('dotenv').config();
-const bodyParser = require('body-Parser');
+const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const ObjectId = mongo.ObjectID;
 const session = require('express-session')({
