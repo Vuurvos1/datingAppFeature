@@ -266,8 +266,6 @@ io.on('connection', (socket) => {
   socket.join(socketRoom);
 
   socket.on('message', (data) => {
-    console.log('message');
-
     const sender = socket.handshake.session.user._id;
 
     const databaseData = {
@@ -275,8 +273,6 @@ io.on('connection', (socket) => {
       content: data.message,
       time: new Date(),
     };
-
-    console.log(databaseData);
 
     // send to database
     db.collection('Chats').updateOne(

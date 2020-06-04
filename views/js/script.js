@@ -4,14 +4,7 @@ const msg = document.querySelector('#message');
 const sendMsg = document.querySelector('#sendMessage');
 const messageSection = document.querySelector('#messages');
 
-const settings = {
-  url: 'http://localhost:3000',
-};
-
-let socket = io(settings.url);
-
-// const searchRoom = window.location.search.slice(1).trim();
-// console.log(searchRoom);
+let socket = io(window.location.host);
 
 messageSection.scrollTop = messageSection.scrollHeight;
 
