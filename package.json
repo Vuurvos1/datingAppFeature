@@ -27,7 +27,7 @@
     "express-socket.io-session": "^1.3.5",
     "mongodb": "^3.5.7",
     "slug": "^3.0.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0",
